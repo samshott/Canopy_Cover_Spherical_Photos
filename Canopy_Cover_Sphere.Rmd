@@ -1,0 +1,45 @@
+---
+title: "Estimating_Canopy_Cover"
+author: "Sam Ericksen"
+date: '2022-04-18'
+output: html_document
+bibliography: references.yaml
+---
+
+# Estimating Canopy Cover with Spherical Photos
+
+This tutorial was developed with the support of Althouse & Meade inc., and many of the ideas in the tutorial are based on ideas found here were synthesized by Kyle Nessen and collaborators.
+
+Here we aim to evaluate the potential use of spherical photos for the estimation of canopy cover. The goal is to eventually apply this towards analyzing the habitat of monarchs in local eucalyptus groves. Traditionally this is done with a class of tools called densiometers. These tools can be biased, and other tools have been developed to overcome these biases like the [GRS Densiometer](https://www.grsgis.com/densitometer.html). Similarly, methods using LiDAR and Photogrammetry (@andersen2005 ), however LiDAR and other remote sensing platforms are not always available or affordable.
+
+It is for that reason that this tutorial will aim at finding a more universal solution. Spherical cameras are small, portable, and relatively inexpensive, many offering built in GPS units at much smaller costs than bulkier hemispherical cameras. Much of the framework for this process was developed by Andis Arietta who also released several open license tools for conversions online (@arietta2020 ).
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages}
+library(tmaptools) #to read .GPX formats
+library(leaflet) #for interactive webmaps
+library(sf)
+library(data.table)
+```
+
+## Data Capture
+
+Data was captured by me (Sam Ericksen) using a GoPro 360 camera on a 6' pole while walking through the Coastal Access Monarch Butterfly Preserve in Los Osos, California. The area, can be seen here:
+
+```{r Preserve Area, echo=FALSE}
+aoi_table <- data.table(
+                 place=c("Coastal Access Monarch Butterfly Preserve"),
+                 longitude=c(-120.859574336949),
+                 latitude=c(35.31198188641437))
+point <- st_as_sf(aoi_table, coords = 
+                  c("longitude", 
+                    "latitude"), 
+                  crs = 3857) 
+
+leaflet(point) %>% 
+  addTiles() %>% 
+  addMarkers()
+```
