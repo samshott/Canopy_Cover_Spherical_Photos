@@ -78,7 +78,7 @@ That function will output a hemispherical photo that is projected rectangularly,
 ```{r rect to polar}
 hemi_rect_to_polar <- function(hemi_rect_image){
   
-  hemi_rect_image <- image_distort(hemi_rect_image,
+  hemi_polar <- image_distort(hemi_rect_image,
                                    "Polar",
                                    c(0),
                                    bestfit = TRUE)
@@ -94,9 +94,9 @@ hemi_rect_to_polar <- function(hemi_rect_image){
   
   dev.off()
   
-  hemi_polar <- image_composite(figure,
-                                hemi_rect_image, 
-                                operator = 'copyopacity')
+  # hemi_polar <- image_composite(figure,
+  #                               hemi_rect_image, 
+  #                               operator = 'copyopacity')
   
   # paste0(as.character(min_dim/2),
   #                                               "x",
