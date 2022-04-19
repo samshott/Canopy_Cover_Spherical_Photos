@@ -11,6 +11,8 @@ bibliography: references.yaml
 
 <https://stackoverflow.com/questions/64597525/r-magick-square-crop-and-circular-mask>
 
+<https://www.r-bloggers.com/2016/11/extracting-exif-data-from-photos-using-r/>
+
 # Estimating Canopy Cover with Spherical Photos
 
 This tutorial was developed with the support of Althouse & Meade inc., and many of the ideas in the tutorial are based on ideas found here were synthesized by Kyle Nessen and collaborators.
@@ -27,6 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(leaflet) #for interactive webmaps
 library(sf)
 library(magick) #image manipulation
+library(imager)
 ```
 
 ## Data Capture
@@ -50,4 +53,59 @@ tracks <- st_zm(tracks) #drop z dimension
 leaflet(tracks$geometry) %>% 
   addProviderTiles("Esri.WorldImagery") %>% 
   addPolylines()
+```
+
+## Cutting Images in Half
+
+360 degree photos are in essence spherical photos, and they are captured as planar (rectangular) projections of a sphere. This means that to create a rectangular projection of a hemisphere, we must cut the spherical projection in half along its horizontal axis. Eventually all of these functions will be applied to thousands of photos, so everything will be created in functions, before it is applied to photos, so we don't read thousands of photos into the ram all at once.
+
+```{r Half Images}
+sphere_to_hemi_rect <- function(image_path){
+  #'input: path to spherical image
+  #'output: rectangular projection of hemisphere image
+  sphere_rect_img <- image_read(image_path)
+  
+  hemi_rect <- image_crop(sphere_rect_img, "100%x50%") #crop off bottom half of image
+  
+  return(hemi_rect)
+}
+```
+
+## Conversion to Polar Coordinates
+
+That function will output a hemispherical photo that is projected rectangularly, but we need polar coordinates to match to get ride of distortions from projection. Here the function takes in a rectangular hemispherical photo, and outputs a polar (circular) hemispherical photo.
+
+```{r rect to polar}
+hemi_rect_to_polar <- function(hemi_rect_image){
+  
+  hemi_rect_image <- image_distort(hemi_rect_image,
+                                   "Polar",
+                                   c(0),
+                                   bestfit = TRUE)
+  
+  min_dim <- min(image_info(hemi_rect_image)[2])
+  
+  figure <- image_draw(image_blank(min_dim,min_dim))
+  symbols(min_dim/2, 
+          min_dim/2, 
+          circles = (min_dim/2), 
+          fg = 'black', 
+          add = TRUE)
+  
+  dev.off()
+  
+  hemi_polar <- image_composite(figure,
+                                hemi_rect_image, 
+                                operator = 'copyopacity')
+  
+  # paste0(as.character(min_dim/2),
+  #                                               "x",
+  #                                               as.character(min_dim/2))
+#hemi_polar <- image_background(hemi_polar, 'black')
+  
+  return(hemi_polar)
+
+##try using imager::imsub() https://dahtah.github.io/imager/imager.html
+}
+hemi_rect_to_polar(img_ex_half)
 ```
