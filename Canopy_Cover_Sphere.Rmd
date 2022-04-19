@@ -2,9 +2,14 @@
 title: "Estimating_Canopy_Cover"
 author: "Sam Ericksen"
 date: '2022-04-18'
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
+    toc_depth: 2
 bibliography: references.yaml
 ---
+
+<https://stackoverflow.com/questions/64597525/r-magick-square-crop-and-circular-mask>
 
 # Estimating Canopy Cover with Spherical Photos
 
@@ -18,11 +23,10 @@ It is for that reason that this tutorial will aim at finding a more universal so
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r packages}
-library(tmaptools) #to read .GPX formats
+```{r packages, message=FALSE, warning=FALSE}
 library(leaflet) #for interactive webmaps
 library(sf)
-library(data.table)
+library(magick) #image manipulation
 ```
 
 ## Data Capture
@@ -30,16 +34,20 @@ library(data.table)
 Data was captured by me (Sam Ericksen) using a GoPro 360 camera on a 6' pole while walking through the Coastal Access Monarch Butterfly Preserve in Los Osos, California. The area, can be seen here:
 
 ```{r Preserve Area, echo=FALSE}
-aoi_table <- data.table(
-                 place=c("Coastal Access Monarch Butterfly Preserve"),
-                 longitude=c(-120.859574336949),
-                 latitude=c(35.31198188641437))
-point <- st_as_sf(aoi_table, coords = 
-                  c("longitude", 
-                    "latitude"), 
-                  crs = 3857) 
-
-leaflet(point) %>% 
+leaflet() %>% 
   addTiles() %>% 
-  addMarkers()
+  addMarkers(lng = -120.859574336949,
+             lat = 35.31198188641437)
+```
+
+capture occurred over the course of a few hours, and involved grid lining out the northern grove on foot. The path of capture can be seen below.
+
+```{r path of travel}
+tracks <- read_sf("PathShape/Euc_Forest_path.shp")
+
+tracks <- st_zm(tracks) #drop z dimension
+
+leaflet(tracks$geometry) %>% 
+  addProviderTiles("Esri.WorldImagery") %>% 
+  addPolylines()
 ```
