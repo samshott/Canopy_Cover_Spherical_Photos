@@ -30,6 +30,8 @@ library(leaflet) #for interactive webmaps
 library(sf)
 library(magick) #image manipulation
 library(imager)
+library(plotrix)
+library(Sky)
 ```
 
 ## Data Capture
@@ -55,6 +57,15 @@ leaflet(tracks$geometry) %>%
   addPolylines()
 ```
 
+## Reading in Some Test Pictures
+
+For ease of looping through large numbers of pictures, the first in the function chain will be built to take in a file path to an image, If RAM is not of concern for the number of images you are working with you may wish to read all images into memory using `image_read()` , and create a function to take in the magick images. For the sake of example, we will simply read in four 360 images.
+
+```{r read pics}
+
+img_paths <- paste0("360_Pics/", list.files("360_Pics")[1:4])
+```
+
 ## Cutting Images in Half
 
 360 degree photos are in essence spherical photos, and they are captured as planar (rectangular) projections of a sphere. This means that to create a rectangular projection of a hemisphere, we must cut the spherical projection in half along its horizontal axis. Eventually all of these functions will be applied to thousands of photos, so everything will be created in functions, before it is applied to photos, so we don't read thousands of photos into the ram all at once.
@@ -78,34 +89,35 @@ That function will output a hemispherical photo that is projected rectangularly,
 ```{r rect to polar}
 hemi_rect_to_polar <- function(hemi_rect_image){
   
+  #project to polar coordinates
   hemi_polar <- image_distort(hemi_rect_image,
                                    "Polar",
                                    c(0),
                                    bestfit = TRUE)
   
-  min_dim <- min(image_info(hemi_rect_image)[2])
-  
-  figure <- image_draw(image_blank(min_dim,min_dim))
-  symbols(min_dim/2, 
-          min_dim/2, 
-          circles = (min_dim/2), 
-          fg = 'black', 
-          add = TRUE)
+  #draw bounding 
+  png(temp <- tempfile(fileext = ".png"), 736, 736)
+  par(mar = rep(0,4), yaxs="i", xaxs="i")
+  plot(0, type = "n", ylim = c(0,1), xlim=c(0,1), axes=F, xlab=NA, ylab=NA)
+  plotrix::draw.circle(.5,0.5,.5, col="black")
   
   dev.off()
   
-  # hemi_polar <- image_composite(figure,
-  #                               hemi_rect_image, 
-  #                               operator = 'copyopacity')
+  mask <-  image_read(temp) %>% 
+    image_scale(as.character(image_info(hemi_polar)$width))
   
-  # paste0(as.character(min_dim/2),
-  #                                               "x",
-  #                                               as.character(min_dim/2))
-#hemi_polar <- image_background(hemi_polar, 'black')
+  unlink(temp)
+  
+  hemi_polar <- image_composite(mask, hemi_polar, "minus")
   
   return(hemi_polar)
 
-##try using imager::imsub() https://dahtah.github.io/imager/imager.html
 }
-hemi_rect_to_polar(img_ex_half)
+
+```
+
+The function works to both create a polar coordinate version of the rectangular picture, and remove values that fall outside of the circle.
+
+```{r make mask}
+
 ```
