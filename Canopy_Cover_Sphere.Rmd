@@ -62,8 +62,10 @@ leaflet(tracks$geometry) %>%
 For ease of looping through large numbers of pictures, the first in the function chain will be built to take in a file path to an image, If RAM is not of concern for the number of images you are working with you may wish to read all images into memory using `image_read()` , and create a function to take in the magick images. For the sake of example, we will simply read in four 360 images.
 
 ```{r read pics}
+num_pics <- length(list.files("360_Pics/"))
 
-img_paths <- paste0("360_Pics/", list.files("360_Pics")[sample.int(45, 4)]) #grab 4 random 360 pictures from the picture directory
+
+img_paths <- paste0("360_Pics/", list.files("360_Pics")[sample.int(num_pics, 2)]) #grab 4 random 360 pictures from the picture directory
 ```
 
 ## Cutting Images in Half
@@ -88,7 +90,7 @@ image_append( rect_imgs, stack = TRUE)
 
 ## Conversion to Polar Coordinates
 
-That function will output a hemispherical photo that is projected rectangularly, but we need polar coordinates to match to get ride of distortions from projection. Here the function takes in a rectangular hemispherical photo, and outputs a polar (circular) hemispherical photo.
+That function will output a hemispherical photo that is projected on a cartesian coordinate system (rectangular), but we need polar coordinates to match to get rid of distortions from projection. Here the function takes in a rectangular hemispherical photo, and outputs a polar (circular) hemispherical photo.
 
 ```{r rect to polar}
 hemi_rect_to_polar <- function(hemi_rect_image){
@@ -123,7 +125,9 @@ hemi_imgs <- hemi_rect_to_polar(rect_imgs)
 image_append( hemi_imgs)
 ```
 
-## Light Indecies
+## Write to directory
+
+## Light Indices
 
 Next we'll use an experimental package called hemispheR to get some canopy information from the hemispherical images ( @chianucci2022 ).
 

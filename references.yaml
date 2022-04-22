@@ -25,31 +25,6 @@ references:
   type: article-journal
   URL: "https://www.sciencedirect.com/science/article/pii/S0034425704003438"
   volume: 94
-- id: andersen2005
-  accessed: "19:52:12"
-  author:
-  - family: Andersen
-    given: Hans-Erik
-  - family: McGaughey
-    given: Robert J.
-  - family: Reutebuch
-    given: Stephen E.
-  container-title: Remote Sensing of Environment
-  container-title-short: Remote Sensing of Environment
-  DOI: 10.1016/j.rse.2004.10.013
-  ISSN: 0034-4257
-  issue: 4
-  issued: 2005-02-28
-  key: JKME2CPK
-  language: en
-  libraryID: 1
-  page: 441-449
-  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
-  source: ScienceDirect
-  title: Estimating forest canopy fuel parameters using LIDAR data
-  type: article-journal
-  URL: "https://www.sciencedirect.com/science/article/pii/S0034425704003438"
-  volume: 94
 - id: arietta2020
   accessed: "23:52:27"
   author:
@@ -72,6 +47,62 @@ references:
     light environment
   type: article
   URL: "https://www.biorxiv.org/content/10.1101/2020.12.15.422956v2"
+- id: HemispheR
+  accessed: "03:19:49"
+  author:
+  - family: Chianucci
+    given: Francesco
+  - family: Macek
+    given: Martin
+  DOI: 10.1101/2022.04.01.486683
+  issued: 2022-04-04
+  key: 6UZCPWIU
+  language: en
+  libraryID: 1
+  page: 2022.04.01.486683
+  providerKey: Zotero
+  publisher: bioRxiv
+  Results:
+  Type: article
+  rights: "© 2022, Posted by Cold Spring Harbor Laboratory. This
+    pre-print is available under a Creative Commons License
+    (Attribution-NonCommercial-NoDerivs 4.0 International), CC BY-NC-ND
+    4.0, as described at
+    http://creativecommons.org/licenses/by-nc-nd/4.0/"
+  Section: New
+  source: bioRxiv
+  title: "hemispheR: an R package for fisheye canopy image analysis"
+  title-short: hemispheR
+  type: report
+  URL: "https://www.biorxiv.org/content/10.1101/2022.04.01.486683v1"
+- id: cHemhianucci2022
+  accessed: "03:19:49"
+  author:
+  - family: Chianucci
+    given: Francesco
+  - family: Macek
+    given: Martin
+  DOI: 10.1101/2022.04.01.486683
+  issued: 2022-04-04
+  key: 6UZCPWIU
+  language: en
+  libraryID: 1
+  page: 2022.04.01.486683
+  providerKey: Zotero
+  publisher: bioRxiv
+  Results:
+  Type: article
+  rights: "© 2022, Posted by Cold Spring Harbor Laboratory. This
+    pre-print is available under a Creative Commons License
+    (Attribution-NonCommercial-NoDerivs 4.0 International), CC BY-NC-ND
+    4.0, as described at
+    http://creativecommons.org/licenses/by-nc-nd/4.0/"
+  Section: New
+  source: bioRxiv
+  title: "hemispheR: an R package for fisheye canopy image analysis"
+  title-short: hemispheR
+  type: report
+  URL: "https://www.biorxiv.org/content/10.1101/2022.04.01.486683v1"
 - id: chianucci2022
   accessed: "03:19:49"
   author:
@@ -87,7 +118,7 @@ references:
   page: 2022.04.01.486683
   providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
   publisher: bioRxiv
-  Results
+  Results:
   Type: article
   rights: "© 2022, Posted by Cold Spring Harbor Laboratory. This
     pre-print is available under a Creative Commons License
