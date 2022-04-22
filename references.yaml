@@ -131,4 +131,27 @@ references:
   title-short: hemispheR
   type: report
   URL: "https://www.biorxiv.org/content/10.1101/2022.04.01.486683v1"
+- id: mike2022
+  accessed: "16:46:50"
+  author:
+  - family: Mike
+  genre: JavaScript
+  issued: 2022-04-22
+  key: GBHFDHHN
+  libraryID: 1
+  original-date: 2018-08-01
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  rights: MIT
+  source: GitHub
+  title: MikeKovarik/exifr
+  type: book
+  URL: "https://github.com/MikeKovarik/exifr"
+- id: exiftool
+  accessed: "16:54:32"
+  key: PLEKKQ5Q
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  title: ExifTool by Phil Harvey
+  type: webpage
+  URL: "https://exiftool.org/index.html"
 ...

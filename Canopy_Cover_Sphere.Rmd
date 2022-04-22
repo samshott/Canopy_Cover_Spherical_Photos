@@ -32,6 +32,7 @@ library(magick) #image manipulation
 library(imager)
 library(plotrix)
 library(hemispheR)
+library(exifr)
 ```
 
 ## Data Capture
@@ -162,5 +163,9 @@ if (!dir.exists(pol_pic_dir)){ #only create it if it hasnt alread been done
 ## Light Indices
 
 Next we'll use an experimental package called hemispheR to get some canopy information from the hemispherical images ( @chianucci2022 ).
+
+## Geometry from photos
+
+a wraper for exif tools comes in the form of a package called exifr ( @mike2022 ). Exiftools and Perl must be installed already to use exifr ( @exiftool )
 
 # References
