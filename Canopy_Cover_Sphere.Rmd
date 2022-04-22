@@ -22,7 +22,7 @@ Here we aim to evaluate the potential use of spherical photos for the estimation
 It is for that reason that this tutorial will aim at finding a more universal solution. Spherical cameras are small, portable, and relatively inexpensive, many offering built in GPS units at much smaller costs than bulkier hemispherical cameras. Much of the framework for this process was developed by Andis Arietta who also released several open license tools for conversions online (@arietta2020 ).
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}
@@ -31,7 +31,7 @@ library(sf)
 library(magick) #image manipulation
 library(imager)
 library(plotrix)
-library(Sky)
+library(hemispheR)
 ```
 
 ## Data Capture
@@ -63,7 +63,7 @@ For ease of looping through large numbers of pictures, the first in the function
 
 ```{r read pics}
 
-img_paths <- paste0("360_Pics/", list.files("360_Pics")[1:4])
+img_paths <- paste0("360_Pics/", list.files("360_Pics")[sample.int(45, 4)]) #grab 4 random 360 pictures from the picture directory
 ```
 
 ## Cutting Images in Half
@@ -80,6 +80,10 @@ sphere_to_hemi_rect <- function(image_path){
   
   return(hemi_rect)
 }
+
+rect_imgs <- sphere_to_hemi_rect(img_paths)
+
+image_append( rect_imgs, stack = TRUE)
 ```
 
 ## Conversion to Polar Coordinates
@@ -114,10 +118,13 @@ hemi_rect_to_polar <- function(hemi_rect_image){
 
 }
 
+hemi_imgs <- hemi_rect_to_polar(rect_imgs)
+
+image_append( hemi_imgs)
 ```
 
-The function works to both create a polar coordinate version of the rectangular picture, and remove values that fall outside of the circle.
+## Light Indecies
 
-```{r make mask}
+Next we'll use an experimental package called hemispheR to get some canopy information from the hemispherical images ( @chianucci2022 ).
 
-```
+# References

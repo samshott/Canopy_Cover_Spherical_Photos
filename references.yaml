@@ -72,4 +72,32 @@ references:
     light environment
   type: article
   URL: "https://www.biorxiv.org/content/10.1101/2020.12.15.422956v2"
+- id: chianucci2022
+  accessed: "03:19:49"
+  author:
+  - family: Chianucci
+    given: Francesco
+  - family: Macek
+    given: Martin
+  DOI: 10.1101/2022.04.01.486683
+  issued: 2022-04-04
+  key: 6UZCPWIU
+  language: en
+  libraryID: 1
+  page: 2022.04.01.486683
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  publisher: bioRxiv
+  Results
+  Type: article
+  rights: "© 2022, Posted by Cold Spring Harbor Laboratory. This
+    pre-print is available under a Creative Commons License
+    (Attribution-NonCommercial-NoDerivs 4.0 International), CC BY-NC-ND
+    4.0, as described at
+    http://creativecommons.org/licenses/by-nc-nd/4.0/"
+  Section: New
+  source: bioRxiv
+  title: "hemispheR: an R package for fisheye canopy image analysis"
+  title-short: hemispheR
+  type: report
+  URL: "https://www.biorxiv.org/content/10.1101/2022.04.01.486683v1"
 ...
