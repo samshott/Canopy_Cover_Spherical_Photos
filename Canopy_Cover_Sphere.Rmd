@@ -168,4 +168,14 @@ Next we'll use an experimental package called hemispheR to get some canopy infor
 
 a wraper for exif tools comes in the form of a package called exifr ( @mike2022 ). Exiftools and Perl must be installed already to use exifr ( @exiftool )
 
+### Point Locations
+
+### Add Attributes
+
+### Interpolation
+
+<https://rspatial.org/raster/analysis/4-interpolation.html>
+
+( @interpol )
+
 # References

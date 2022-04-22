@@ -154,4 +154,12 @@ references:
   title: ExifTool by Phil Harvey
   type: webpage
   URL: "https://exiftool.org/index.html"
+- id: interpol
+  accessed: "17:16:35"
+  key: R7FULGWE
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  title: Interpolation --- R Spatial
+  type: webpage
+  URL: "https://rspatial.org/raster/analysis/4-interpolation.html"
 ...
