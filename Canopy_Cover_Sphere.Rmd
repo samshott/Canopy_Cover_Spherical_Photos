@@ -62,10 +62,13 @@ leaflet(tracks$geometry) %>%
 For ease of looping through large numbers of pictures, the first in the function chain will be built to take in a file path to an image, If RAM is not of concern for the number of images you are working with you may wish to read all images into memory using `image_read()` , and create a function to take in the magick images. For the sake of example, we will simply read in four 360 images.
 
 ```{r read pics}
-num_pics <- length(list.files("360_Pics/"))
+img_paths <- paste0("360_Pics/", list.files("360_Pics"))
 
+num_pics <- length(img_paths)
 
-img_paths <- paste0("360_Pics/", list.files("360_Pics")[sample.int(num_pics, 2)]) #grab 4 random 360 pictures from the picture directory
+rand_ind <- sample.int(num_pics, 2) #save index for later to continue to work with the same pictures
+
+test_img_paths <-img_paths[rand_ind] #grab 2 random 360 pictures from the picture directory
 ```
 
 ## Cutting Images in Half
@@ -83,7 +86,7 @@ sphere_to_hemi_rect <- function(image_path){
   return(hemi_rect)
 }
 
-rect_imgs <- sphere_to_hemi_rect(img_paths)
+rect_imgs <- sphere_to_hemi_rect(test_img_paths)
 
 image_append( rect_imgs, stack = TRUE)
 ```
@@ -126,6 +129,35 @@ image_append( hemi_imgs)
 ```
 
 ## Write to directory
+
+Now we want to create a directory to save our resultant hemispherical photos in this will be the intermediate output. Here we will have successfully created hemispherical photos that mimic the quality of expensive hemispherical cameras using a relatively inexpensive 360 degree camera, congratulations!
+
+```{r save hemis}
+pol_pic_dir <- "hemi_polor_pics/"
+
+if (!dir.exists(pol_pic_dir)){ #only create it if it hasnt alread been done
+  
+  dir.create(pol_pic_dir)
+  
+  all_hemi_rects <-  sphere_to_hemi_rect(img_paths)
+  
+  all_polar <-  hemi_rect_to_polar(all_hemi_rects)
+  
+  img_names <- sapply(strsplit(img_paths,"/"), getElement, 2)
+  
+  for (img_ind in 1:length(all_polar)){
+    write_to <- paste0(pol_pic_dir, img_names[img_ind])
+    
+    # print(paste0(img_ind, "/", length(all_polar))) #for progress through loop
+    
+    image_write(
+      image = all_polar[img_ind], 
+      path = write_to)
+  }
+  
+  
+}
+```
 
 ## Light Indices
 
