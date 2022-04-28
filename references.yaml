@@ -162,4 +162,85 @@ references:
   title: Interpolation --- R Spatial
   type: webpage
   URL: "https://rspatial.org/raster/analysis/4-interpolation.html"
+- id: otsu1979
+  author:
+  - family: Otsu
+    given: Nobuyuki
+  Conference Name: IEEE
+  container-title: IEEE Transactions on Systems, Man, and Cybernetics
+  DOI: 10.1109/TSMC.1979.4310076
+  ISSN: 2168-2909
+  issue: 1
+  issued: 1979-01
+  key: 32L3SMYD
+  libraryID: 1
+  note: "Conference Name: IEEE Transactions on Systems, Man, and
+    Cybernetics"
+  page: 62-66
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: IEEE Xplore
+  title: A Threshold Selection Method from Gray-Level Histograms
+  type: article-journal
+  volume: 9
+- id: otsu1979
+  author:
+  - family: Otsu
+    given: Nobuyuki
+  Conference Name: IEEE
+  container-title: IEEE Transactions on Systems, Man, and Cybernetics
+  DOI: 10.1109/TSMC.1979.4310076
+  ISSN: 2168-2909
+  issue: 1
+  issued: 1979-01
+  key: 32L3SMYD
+  libraryID: 1
+  note: "Conference Name: IEEE Transactions on Systems, Man, and
+    Cybernetics"
+  page: 62-66
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: IEEE Xplore
+  title: A Threshold Selection Method from Gray-Level Histograms
+  type: article-journal
+  volume: 9
+- id: leafare2021
+  accessed: "02:11:18"
+  container-title: Wikipedia
+  issued: 2021-08-04
+  key: 5EQJZFAW
+  language: en
+  libraryID: 1
+  note: "Page Version ID: 1037122741"
+  Page Version ID: 1037122741
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  rights: Creative Commons Attribution-ShareAlike License
+  source: Wikipedia
+  title: Leaf area index
+  type: entry-encyclopedia
+  URL: "https://en.wikipedia.org/w/index.php?title=Leaf_area_index&oldid=1037122741"
+- id: zheng2009
+  accessed: "02:14:39"
+  author:
+  - family: Zheng
+    given: Guang
+  - family: Moskal
+    given: L. Monika
+  container-title: Sensors (Basel, Switzerland)
+  container-title-short: Sensors (Basel)
+  DOI: 10.3390/s90402719
+  ISSN: 1424-8220
+  issue: 4
+  issued: 2009-04-17
+  key: 7ZZ73UP8
+  libraryID: 1
+  page: 2719-2745
+  PMCID: PMC3348792
+  PMID: 22574042
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  source: PubMed Central
+  title: "Retrieving Leaf Area Index (LAI) Using Remote Sensing:
+    Theories, Methods and Sensors"
+  title-short: Retrieving Leaf Area Index (LAI) Using Remote Sensing
+  type: article-journal
+  URL: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3348792/"
+  volume: 9
 ...
