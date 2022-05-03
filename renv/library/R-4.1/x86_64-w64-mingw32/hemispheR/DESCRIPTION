@@ -1,0 +1,34 @@
+Package: hemispheR
+Title: A tool for processing circular and fullframe fisheye canopy
+        images
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given="Francesco",
+          family="Chianucci",
+          email="fchianucci@gmail.com",
+          role = c("aut", "cre"),
+          comment = c(ORCID = "0000-0002-5688-2060")),
+    person(given="Martin", 
+          family="Macek",  
+          email="martin.macek@volny.cz",
+          role = c("aut"),
+          comment = c(ORCID = "0000-0002-5609-5921")))
+Description: The package allows import & classify canopy fisheye images, estimate angular gap fraction and derive canopy attributes like leaf area index and openness.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Imports: autothresholdr, dplyr, graphics, grDevices, magrittr, plotrix,
+        raster, rasterDT, rlang, scales, sp, stringr, tidyr
+Depends: R (>= 2.10)
+LazyData: true
+RemoteType: xgit
+RemoteUrl: https://gitlab.com/fchianucci/hemispheR
+RemoteSha: b5f57c430eb1f4044ecd648472596ac73cc22c51
+NeedsCompilation: no
+Packaged: 2022-05-03 01:27:56 UTC; samer
+Author: Francesco Chianucci [aut, cre]
+    (<https://orcid.org/0000-0002-5688-2060>),
+  Martin Macek [aut] (<https://orcid.org/0000-0002-5609-5921>)
+Maintainer: Francesco Chianucci <fchianucci@gmail.com>
+Built: R 4.1.3; ; 2022-05-03 01:27:58 UTC; windows

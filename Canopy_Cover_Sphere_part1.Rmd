@@ -9,10 +9,6 @@ output:
 bibliography: references.yaml
 ---
 
-<https://stackoverflow.com/questions/64597525/r-magick-square-crop-and-circular-mask>
-
-<https://www.r-bloggers.com/2016/11/extracting-exif-data-from-photos-using-r/>
-
 # Estimating Canopy Cover with Spherical Photos
 
 This tutorial was developed with the support of Althouse & Meade inc., and many of the ideas in the tutorial are based on ideas found here were synthesized by Kyle Nessen and collaborators.
@@ -24,6 +20,11 @@ It is for that reason that this tutorial will aim at finding a more universal so
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(knitr)
+
+#https://stackoverflow.com/questions/64597525/r-magick-square-crop-and-circular-mask
+#https://www.r-bloggers.com/2016/11/extracting-exif-data-from-photos-using-r/
+
+
 ```
 
 ```{r packages, message=FALSE, warning=FALSE}
@@ -294,29 +295,25 @@ then we just check the first 10 rows to see what we get:
 kable(head(pic_light_indices, 10))
 ```
 
-Looks okay, but there are a few unneccesarry columns, and the names are pretty unclear. Lets clean it up a bit.
+Looks okay, but there are a few unnecessary columns, and the names are pretty unclear. Lets clean it up a bit.
 
 ```{r df cleanup}
 pic_light_indices <- pic_light_indices[ , c(2:4,8:9, 12:13)]
 
 colnames(pic_light_indices) <- c("Pic_Name", "eff_LAI", "act_LAI","Gap_Frac", "Mean_Leaf_Angle", "Rings", "Azimuths")
 
+head(pic_light_indices)
+
 ```
 
 # Coming in Part 2
 
-## Geometry from photos
-
-a wrapper for exif tools comes in the form of a package called exifr ( @mike2022 ). Exiftools and Perl must be installed already to use exifr ( @exiftool )
+### Geometry from photos
 
 ### Point Locations
 
 ### Add Attributes
 
-## Interpolation
-
-<https://rspatial.org/raster/analysis/4-interpolation.html>
-
-( @interpol )
+### Interpolation
 
 # References

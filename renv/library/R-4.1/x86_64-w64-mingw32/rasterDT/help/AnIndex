@@ -1,0 +1,10 @@
+rasterDT-package	rasterDT-package
+cat_to_val	cat_to_val
+crosstabDT	crosstabDT
+fasterizeDT	fasterizeDT
+freqDT	freqDT
+freqDT,RasterLayer-method	freqDT
+freqDT,RasterStackBrick-method	freqDT
+rasterDT	rasterDT-package
+subsDT	subsDT
+zonalDT	zonalDT

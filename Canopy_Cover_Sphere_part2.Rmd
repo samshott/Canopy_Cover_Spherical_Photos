@@ -1,0 +1,20 @@
+---
+title: "Canopy_Cover_Sphere_part2"
+author: "Sam Ericksen"
+date: '2022-04-30'
+output: html_document
+---
+a wrapper for exif tools comes in the form of a package called exifr ( @mike2022 ). Exiftools and Perl must be installed already to use exifr ( @exiftool )
+
+https://rspatial.org/raster/analysis/4-interpolation.html
+
+( @interpol )
+
+Geometry from photos
+
+Point Locations
+
+Add Attributes
+
+Interpolation
+

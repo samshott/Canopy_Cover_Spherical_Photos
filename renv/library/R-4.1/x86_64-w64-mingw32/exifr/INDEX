@@ -1,0 +1,3 @@
+configure_exiftool      Configure perl, ExifTool
+exiftool_call           Call exiftool from R
+read_exif               Read EXIF data from files

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Divide a raster image into four stacks which are used as...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zonal_mask {hemispheR}"><tr><td>zonal_mask {hemispheR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Divide a raster image into four stacks which are used as masks.</h2>
+
+<h3>Description</h3>
+
+<p>This function imports a raster image using <code><a href="../../raster/help/raster.html">raster::raster()</a></code> functionality, and divide into four masks, using the image centre and borders as vertices.
+The four zonal masks are then returned as a raster stack.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+zonal_mask(img)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>img</code></td>
+<td>
+<p>Raster. The input raster image</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 4-layers stacks of image masks
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+image&lt;-system.file('extdata/circular_coolpix4500+FC-E8_chestnut.jpg',package='hemispheR')
+zmsk&lt;-zonal_mask(raster::raster(image))
+raster::plot(zmsk,col=gray.colors(5),main=c('N','W','S','E'))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hemispheR</em> version 0.0.0.9000 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,7 @@
+configure_exiftool	configure_exiftool
+configure_exiftool_reset	configure_exiftool
+configure_perl	configure_exiftool
+exiftool_call	exiftool_call
+exiftool_command	exiftool_call
+exiftool_version	exiftool_call
+read_exif	read_exif

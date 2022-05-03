@@ -1,0 +1,8 @@
+cat_to_val              Convert a Categorical Raster to a Value Raster
+crosstabDT              Speedy Raster Cross-tabulation
+fasterizeDT             Polygon Rasterization Using Numeric, Factor, or
+                        Character Fields
+freqDT                  Speedy Raster Value Frequency Tabulation
+rasterDT-package        Fast Raster Summary and Manipulation
+subsDT                  Speedy Raster Value Substitution
+zonalDT                 Speedy Zonal Statistics
