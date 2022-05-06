@@ -3,6 +3,7 @@ title: "Canopy_Cover_Sphere_part2"
 author: "Sam Ericksen"
 date: '2022-04-30'
 output: html_document
+bibliography: references.yaml
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +30,7 @@ Althought the GoPro 360 embeds GPS information in each photo, this information i
 
 ### Picture information
 
-Here we use exifr to read in
+Here we use exifr to read in metadata associated with the photos. the `args` allow us to keep only the metadata associated with those calls (i.e. we keep only the file name, the time variables, and the gps variables).
 
 ```{r get image info, message=FALSE, warning=FALSE}
 
@@ -37,19 +38,29 @@ image_path <- list.files("360_Pics/",
                          full.names = T) #test image
 
 image_df <-  read_exif(image_path, 
-             args = "-*FileName* -*Time*")
+             args = "-*FileName* -*Time* - *GPS*")
+```
 
-kable(head(image_df))
+```{r psuedo image exif, include=FALSE}
+image_df <- read.csv2("all_images_exif.csv")
+```
+
+```{r plot photo locations}
+#keep time as an attribute
 ```
 
 ### Read GPX
+
+This process is simple enough, we read in the `.gpx` data using the `plotKML` package ( @plotkml ). All we have to do is subset it to the dataframe containing the lat/lon and timestamp (here we do it all in one line just for convenience.
 
 ```{r gpx}
 gps_pnts <- readGPX("16-Feb-2022-1600-clipped.gpx")$tracks[[1]][[1]] #get tracks from .gpx file
 
 kable(head(gps_pnts$time))
+```
 
-
+```{r plot gpx locations}
+# keep time as an attribute
 ```
 
 Point Locations
