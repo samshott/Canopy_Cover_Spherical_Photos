@@ -4,17 +4,56 @@ author: "Sam Ericksen"
 date: '2022-04-30'
 output: html_document
 ---
+
+```{r setup, include=FALSE}
+library(knitr)
+```
+
+# Estimating Canopy Cover with Spherical Photos Part 2
+
 a wrapper for exif tools comes in the form of a package called exifr ( @mike2022 ). Exiftools and Perl must be installed already to use exifr ( @exiftool )
 
-https://rspatial.org/raster/analysis/4-interpolation.html
+```{r packages, message=FALSE, warning=FALSE}
+library(exifr)
+library(plotKML)
+library(lubridate)
+```
+
+<https://rspatial.org/raster/analysis/4-interpolation.html>
 
 ( @interpol )
 
-Geometry from photos
+## Geometry from photos
+
+Althought the GoPro 360 embeds GPS information in each photo, this information is about as precise as a normal phone GPS (\~5m). In order to get better accuracy, an Arrow hat-mounted GPS was unit was used to collect location information during this survey, which output a `16-Feb-2022-1600-clipped.gpx` file with higher preccision than consumer grade GPS units. In order to match the photos up with the Arrow GPS we need time stamp information from the pictures, as well as the tracks file.
+
+### Picture information
+
+Here we use exifr to read in
+
+```{r get image info, message=FALSE, warning=FALSE}
+
+image_path <- list.files("360_Pics/",
+                         full.names = T) #test image
+
+image_df <-  read_exif(image_path, 
+             args = "-*FileName* -*Time*")
+
+kable(head(image_df))
+```
+
+### Read GPX
+
+```{r gpx}
+gps_pnts <- readGPX("16-Feb-2022-1600-clipped.gpx")$tracks[[1]][[1]] #get tracks from .gpx file
+
+kable(head(gps_pnts$time))
+
+
+```
 
 Point Locations
 
 Add Attributes
 
 Interpolation
-
