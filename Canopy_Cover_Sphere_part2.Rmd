@@ -18,6 +18,8 @@ a wrapper for exif tools comes in the form of a package called exifr ( @mike2022
 library(exifr)
 library(plotKML)
 library(lubridate)
+library(magrittr)
+library(leaflet)
 ```
 
 <https://rspatial.org/raster/analysis/4-interpolation.html>
@@ -56,15 +58,110 @@ This process is simple enough, we read in the `.gpx` data using the `plotKML` pa
 ```{r gpx}
 gps_pnts <- readGPX("16-Feb-2022-1600-clipped.gpx")$tracks[[1]][[1]] #get tracks from .gpx file
 
-kable(head(gps_pnts$time))
+range(gps_pnts$time)
 ```
 
 ```{r plot gpx locations}
+leaflet(slice(gps_pnts,which(row_number() %% 10 == 1))) %>% #display every 10th element (lots of points here)
+  addProviderTiles("Esri.WorldImagery") %>% 
+  addMarkers(lng = ~lon, 
+             lat = ~lat, 
+             popup = ~time)
 # keep time as an attribute
 ```
 
-Point Locations
+### Lining up times
 
-Add Attributes
+That's looking good, but lets make sure that the time ranges line up between the images and the `.gpx` tracks. We'll just compare the ranges to make sure they are similar.
 
-Interpolation
+```{r compare ranges}
+print(paste("gpx time range:", 
+            range(gps_pnts$time)[1], 
+            "-", 
+            range(gps_pnts$time)[2]))
+print(paste("image time range:", 
+            range(image_df$GPSDateTime)[1], 
+            "-", 
+            range(image_df$GPSDateTime)[2]))
+```
+
+They seem to be well lined up, considering we started the Arrow GPS up early to let it capture satellites, and I happen to know that I forgot to turn it off until I was in the car ready about to leave, after I had packed everything up, so we will carry on assuming that they are lined up properly for now.
+
+Now that we know that lets make a new column in each dataframe with times that are in the same format as eachother that we will be able to join them on later.
+
+```{r format times}
+
+gps_pnts %<>% 
+  mutate(form_time = ymd_hms(time))
+
+image_df %<>% 
+  mutate(form_time = ymd_hms(GPSDateTime))
+
+image_df$form_time[1]
+gps_pnts$form_time[1]
+```
+
+I also happen to know that images were triggered every 2 seconds, and gps points were taken at not so uniform of an interval, so we should see if gps points were captured at even or odd seconds, and then modify the gps_points to fit the seconds of the images.
+
+```{r check evens or odd times}
+unique(as.integer(image_df$form_time)%%2==0) #check if there are only odds or evens - TRUE means only odds (modulate by 2)
+```
+
+looks like all we have are even times in the image dataframe. So lets round the form_time in the gps_points to the nearest even second so we can more easily join on time.
+
+```{r round gps time}
+
+gps_pnts %<>% 
+  mutate(form_time = round_date(form_time, "2 seconds"))
+
+unique(as.integer(gps_pnts$form_time)%%2==0)
+```
+
+### Joining Dataframes
+
+Next we need to join the dataframes, so that images can be plotted by the Arrow GPS points. We will lose some of our pictures, as some gps points will be non-existant for a given time, but in these cases we won't lose much as pictures will have been within a few seconds of eachother.
+
+```{r joining dataframes}
+
+combined_GF_df <- gps_pnts %>%
+  right_join(image_df, by = c("form_time" = "form_time")) %>% 
+  drop_na(lat) %>% 
+  select(FileName, lat, lon, ele, form_time, SourceFile)
+
+```
+
+### Add Attributes
+
+Next we just need to add the light indices we computed in the last post.
+
+```{r}
+photo_indices <- read.csv2("all_photos_compressed.csv") #file we saved in last post with light indices and image names
+
+combined_GF_df %<>% 
+  left_join(photo_indices, by = c("FileName" = "Pic_Name"))
+```
+
+Now we have a dataframe with latitude and longitude locations of each picture, and all the computed light indices
+
+```{r map index points, include=FALSE}
+pal <- colorNumeric(
+  palette = "YlOrRd",
+  domain = combined_GF_df$Gap_Frac
+)
+
+leaflet(slice(combined_GF_df,which(row_number() %% 5 == 1))) %>% 
+  addProviderTiles("Esri.WorldImagery") %>% 
+  addCircleMarkers(lng = ~lon, 
+                   lat = ~lat,
+                   color = ~pal(Gap_Frac),
+                   popup = ~paste("Gap Fraction:", Gap_Frac, 
+                                  "<br>Effective LAI:", eff_LAI,
+                                  "<br>Mean Leaf Angle:", Mean_Leaf_Angle),
+                   opacity = .3) %>% 
+  addLegend("topright", 
+            pal = pal, 
+            values = ~Gap_Frac, 
+            title = "Gap Fraction")
+```
+
+## Interpolation
