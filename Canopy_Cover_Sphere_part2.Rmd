@@ -4,10 +4,12 @@ author: "Sam Ericksen"
 date: '2022-04-30'
 output: html_document
 bibliography: references.yaml
+wrap: 300
 ---
 
 ```{r setup, include=FALSE}
 library(knitr)
+options(width = 300)
 ```
 
 # Estimating Canopy Cover with Spherical Photos Part 2
@@ -19,7 +21,12 @@ library(exifr)
 library(plotKML)
 library(lubridate)
 library(magrittr)
+library(tidyr)
+library(dplyr)
 library(leaflet)
+library(gstat)
+library(rgdal)
+library(sp)
 ```
 
 <https://rspatial.org/raster/analysis/4-interpolation.html>
@@ -34,7 +41,7 @@ Althought the GoPro 360 embeds GPS information in each photo, this information i
 
 Here we use exifr to read in metadata associated with the photos. the `args` allow us to keep only the metadata associated with those calls (i.e. we keep only the file name, the time variables, and the gps variables).
 
-```{r get image info, message=FALSE, warning=FALSE}
+```{r get image info, message=FALSE, warning=FALSE, eval=FALSE}
 
 image_path <- list.files("360_Pics/",
                          full.names = T) #test image
@@ -149,7 +156,7 @@ pal <- colorNumeric(
   domain = combined_GF_df$Gap_Frac
 )
 
-leaflet(slice(combined_GF_df,which(row_number() %% 5 == 1))) %>% 
+leaflet(slice(combined_GF_df,which(row_number() %% 2 == 1))) %>% 
   addProviderTiles("Esri.WorldImagery") %>% 
   addCircleMarkers(lng = ~lon, 
                    lat = ~lat,
@@ -157,11 +164,45 @@ leaflet(slice(combined_GF_df,which(row_number() %% 5 == 1))) %>%
                    popup = ~paste("Gap Fraction:", Gap_Frac, 
                                   "<br>Effective LAI:", eff_LAI,
                                   "<br>Mean Leaf Angle:", Mean_Leaf_Angle),
-                   opacity = .3) %>% 
+                   opacity = .4) %>% 
   addLegend("topright", 
             pal = pal, 
             values = ~Gap_Frac, 
             title = "Gap Fraction")
+
 ```
 
 ## Interpolation
+
+```{r}
+
+gap_frac_pnts <- SpatialPointsDataFrame(coords = combined_GF_df[,c("lon", 
+                                                                   "lat")],
+                                        data = combined_GF_df[,c("Gap_Frac",
+                                                                 "ele",
+                                                                 "eff_LAI",
+                                                                 "act_LAI",
+                                                                 "Mean_Leaf_Angle",
+                                                                 "FileName",
+                                                                 "form_time")],
+                                        proj4string = CRS("+init=epsg:4326"))
+
+##NOT FUNCTIONAL YET##
+#http://jonkatz2.github.io/2017/11/15/interpolating-points-to-raster-in-r#:~:text=Interpolation%20can%20be%20done%20by,creating%20value%2Dgradients%20between%20points.
+#https://rdrr.io/github/rspatial/terra/man/interpolate.html
+#https://github.com/rspatial/terra/issues/208
+# gf_pnts_2 <- st_as_sf(combined_GF_df,
+#                       coords = c("lat", "lon"),
+#                       crs = "+init=epsg:4326")
+# 
+# interp_gf_raster <- rast(extent = bbox(gap_frac_pnts),
+#                          resolution = 1,
+#                          crs = "+init=epsg:4326")
+# 
+# gf_fit <- gstat(formula = Gap_Frac ~ 1,
+#                 data = gf_pnts_2)
+# 
+# interp_gf_raster <-  interpolate(object = interp_gf_raster, model = gf_fit, index = 1)
+```
+
+## References
