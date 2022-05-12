@@ -27,6 +27,8 @@ library(leaflet)
 library(gstat)
 library(rgdal)
 library(sp)
+library(sf)
+library(terra)
 ```
 
 <https://rspatial.org/raster/analysis/4-interpolation.html>
@@ -191,18 +193,51 @@ gap_frac_pnts <- SpatialPointsDataFrame(coords = combined_GF_df[,c("lon",
 #http://jonkatz2.github.io/2017/11/15/interpolating-points-to-raster-in-r#:~:text=Interpolation%20can%20be%20done%20by,creating%20value%2Dgradients%20between%20points.
 #https://rdrr.io/github/rspatial/terra/man/interpolate.html
 #https://github.com/rspatial/terra/issues/208
-# gf_pnts_2 <- st_as_sf(combined_GF_df,
-#                       coords = c("lat", "lon"),
-#                       crs = "+init=epsg:4326")
-# 
-# interp_gf_raster <- rast(extent = bbox(gap_frac_pnts),
-#                          resolution = 1,
-#                          crs = "+init=epsg:4326")
-# 
-# gf_fit <- gstat(formula = Gap_Frac ~ 1,
-#                 data = gf_pnts_2)
-# 
-# interp_gf_raster <-  interpolate(object = interp_gf_raster, model = gf_fit, index = 1)
+gf_pnts <- st_as_sf(combined_GF_df,
+                      coords = c("lon", "lat"),
+                      crs = "+init=epsg:4326")
+bounding_box <- bbox(gf_pnts)
+
+interp_gf_raster <- rast(ymin,
+                         res = 10,
+                         crs = crs(gf_pnts))
+
+values(interp_gf_raster) <- 1:ncell(interp_gf_raster)
+
+gf_fit <- gstat( formula = Gap_Frac ~ 1,
+                 id = "Gap_Frac",
+                 data = gf_pnts_2,
+                 nmax = 7)
+
+interpolate_gstat <- function(model, x, ...) {
+  v <- st_as_sf(x, 
+                coords = c("lon", "lat"), 
+                crs = crs(model$data[[1]]$data))
+  p <- predict(model, v, ...)
+  as.data.frame(p)[, 1:2]
+}
+
+
+#https://rspatial.org/spatial-terra/8-rastermanip.html
+library(stars)
+st_bbox(interp_gf_raster) %>%
+  st_as_stars(dx = 1,
+              crs = crs(interp_gf_raster)) %>%
+  st_crop(st_bbox(interp_gf_raster)) -> grd
+
+grd
+
+plot(idw(Gap_Frac~1, gf_pnts_2, grd))
+
+interp_gf_raster <-  interpolate(object = interp_gf_raster, model = gf_fit, fun = interpolate_gstat, index = 1)
 ```
+
+## Coming in Part 3
+
+-   Using Uber H3 Hexigons to aggrigate data
+
+-   Using Canopy Height Model to get information
+
+-   Correlating Canopy Height info to Gap Fraction stats
 
 ## References
