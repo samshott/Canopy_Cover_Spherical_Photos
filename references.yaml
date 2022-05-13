@@ -251,4 +251,13 @@ references:
   title: plotkml
   type: webpage
   URL: "https://plotkml.r-forge.r-project.org/"
+- id: apracti
+  accessed: "17:59:11"
+  key: WVBYCTZM
+  libraryID: 1
+  providerKey: 2509FBBE-5BB0-44C4-B119-6083A81ED673
+  title: A practical guide to geospatial interpolation with R \| Dr.
+    rer. nat. Sören Wilke
+  type: webpage
+  URL: "https://swilke-geoscience.net/post/spatial_interpolation/"
 ...
